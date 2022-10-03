@@ -1,0 +1,40 @@
+/*
+ ============================================================================
+ *  adc.c
+ *  Date: OCT 2, 2022
+ *  Author: Yousef_Osama
+ *  Description: The Source File of ADC Driver
+ ============================================================================
+ */
+#include "adc.h"
+#include"avr/io.h"
+#include"avr/interrupt.h"
+#include"common_macros.h"
+volatile uint16 g_read_value=0;
+/*
+ * Description :
+ * Function responsible for initialize the ADC driver.
+ */
+void ADC_init(void) {
+	/*	SET_BIT(ADMUX, REFS0);*/
+	ADMUX = 0;
+	SET_BIT(ADCSRA, ADEN);
+	SET_BIT(ADCSRA, ADIE);
+	SET_BIT(ADCSRA, ADPS0);
+	SET_BIT(ADCSRA, ADPS1);
+	/*	SET_BIT(ADCSRA, ADPS2);*/
+}
+/*
+ * Description :
+ * Function responsible for read analog data from a certain ADC channel
+ * and convert it to digital using the ADC driver.
+ */
+void ADC_readChannel(uint8 channelNum) {
+	ADMUX = (ADMUX & 0xe0) | (channelNum & 0x0f);
+	SET_BIT(ADCSRA, ADSC);
+}
+ISR(ADC_vect)
+{
+	/* Read ADC Data after conversion complete */
+	g_read_value = ADC;
+}

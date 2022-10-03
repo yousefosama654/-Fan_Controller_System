@@ -1,0 +1,19 @@
+/*
+ ============================================================================
+ *  lm35_sensor.c
+ *  Date: OCT 3, 2022
+ *  Author: Yousef_Osama
+ *  Description: The Source File of ADC Driver
+ ============================================================================
+ */
+#include"adc.h"
+#include"lm35_sensor.h"
+#include"std_types.h"
+#include<util/delay.h>
+uint8 LM35_SENSOR_getTemperature(void) {
+	ADC_readChannel(SENSOR_CHANNEL_ID);
+	_delay_ms(5);
+	return (uint8) (((uint32)g_read_value * LM35_SENSOR_MAX_TEMP
+			* ADC_REF_VOLT_VALUE)
+			/ (ADC_MAXIMUM_VALUE * LM35_SENSOR_MAX_VOLTAGE));
+}
