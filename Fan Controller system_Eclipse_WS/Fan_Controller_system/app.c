@@ -4,10 +4,6 @@
 #include"lm35_sensor.h"
 #include "lcd.h"
 #include"adc.h"
-void controlspeed() {
-
-}
-
 int main() {
 	uint8 temp;
 	Timer_Config Timer_config = { FAST_PWM_MODE, NON_INVERTING_MODE,
